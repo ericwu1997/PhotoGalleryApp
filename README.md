@@ -3,8 +3,8 @@ COMP 7082 Assignment
 
 | Sprint 1           |  open |
 |:-------------:| -----:|
-| Task 1 | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
-| Task 2      | ![incomplete](https://placehold.it/15/f03c15/000000?text=+) `incomplete` |
+| Task 1 | ![in progress](https://placehold.it/15/FFB226/000000?text=+) `in progress` |
+| Task 2      | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
 | Task 3      | ![incomplete](https://placehold.it/15/f03c15/000000?text=+) `incomplete` |
 | Task 4      | ![incomplete](https://placehold.it/15/f03c15/000000?text=+) `incomplete` |
 | Task 5      | ![incomplete](https://placehold.it/15/f03c15/000000?text=+) `incomplete` |
