@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     ImageButton button_search;
+    // Testing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

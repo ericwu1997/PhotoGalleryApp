@@ -7,11 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
-public class GalleryActivity extends AppCompatActivity {
+import org.w3c.dom.Text;
+
+public class GalleryActivity extends AppCompatActivity implements SearchInputFragment.OnInputListener{
 
     ImageButton button_back;
+    Button button_searchPopup;
+    TextView testing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,8 @@ public class GalleryActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_gallery);
 
+        testing = findViewById(R.id.text_testing);
+
         button_back = findViewById(R.id.button_back);
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,5 +43,20 @@ public class GalleryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        button_searchPopup = findViewById(R.id.button_searchPopup);
+        button_searchPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchInputFragment searchInputFragment = new SearchInputFragment();
+                searchInputFragment.show(getSupportFragmentManager(), "Search Fragment Popup");
+            }
+        });
+
+    }
+
+    @Override
+    public void searchPhoto(String input) {
+        testing.setText(input);
     }
 }
