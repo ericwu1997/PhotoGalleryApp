@@ -20,15 +20,16 @@ public class SearchInputFragment extends DialogFragment {
     private Button button_confirm;
     private OnInputListener onInputListener;
 
-    public interface OnInputListener{
+    public interface OnInputListener {
         void searchPhoto(String input);
-        void searchPhoto(Date date, Time time);
+
+        void searchPhoto(Date startDate, Date endDate);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.layout_search_input_popup, container,false);
+        final View view = inflater.inflate(R.layout.layout_search_input_popup, container, false);
 
         button_confirm = view.findViewById(R.id.button_confirm);
         button_confirm.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +48,7 @@ public class SearchInputFragment extends DialogFragment {
         super.onAttach(context);
         try {
             onInputListener = (OnInputListener) getActivity();
-        }catch (ClassCastException e){
+        } catch (ClassCastException e) {
             Log.e("onAttach", "onAttach: ClassCastException: " + e.getMessage());
         }
     }

@@ -12,9 +12,12 @@ import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.TestCase.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class KeywordBasedPhotoSearchTest {
@@ -24,9 +27,16 @@ public class KeywordBasedPhotoSearchTest {
             = new ActivityTestRule<>(GalleryActivity.class);
 
     @Test
-    public void Should_LaunchGalleryActivity_When_SearchButtonClicked() {
+    public void Should_RetrieveMatchingPhotos_When_InquireByKeyword() {
         // Context of the app under test.
-        
+        onView(withId(R.id.button_searchPopup))
+                .perform(click());
+        onView(withId(R.id.text_keyword))
+                .perform(typeText("dog"), closeSoftKeyboard());
+        onView(withId(R.id.button_confirm))
+                .perform(click());
+        // Pending functional implementation
+        assertEquals("success", "fail");
     }
 }
 

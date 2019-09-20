@@ -36,21 +36,21 @@
                     android:textColor="#ffffff" />
 
                 <TextView
-                    android:id="@+id/text_dateHeading"
+                    android:id="@+id/text_dateStartHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Date"
+                    android:text="Start Date"
                     android:textColor="#ffffff" />
 
                 <TextView
-                    android:id="@+id/text_timeHeading"
+                    android:id="@+id/text_dateEndHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Time"
+                    android:text="End Date"
                     android:textColor="#ffffff" />
 
             </LinearLayout>
@@ -72,7 +72,7 @@
                     android:textColor="#ffffff" />
 
                 <EditText
-                    android:id="@+id/text_date"
+                    android:id="@+id/text_dateStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -82,13 +82,13 @@
                     android:textColor="#ffffff" />
 
                 <EditText
-                    android:id="@+id/text_time"
+                    android:id="@+id/text_dateEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="#ffffff"
                     android:ems="10"
-                    android:inputType="time"
+                    android:inputType="date"
                     android:textColor="#ffffff" />
             </LinearLayout>
 

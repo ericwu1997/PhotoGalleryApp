@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Date;
+
 public class GalleryActivity extends AppCompatActivity implements SearchInputFragment.OnInputListener{
 
     ImageButton button_back;
@@ -58,5 +60,10 @@ public class GalleryActivity extends AppCompatActivity implements SearchInputFra
     @Override
     public void searchPhoto(String input) {
         testing.setText(input);
+    }
+
+    @Override
+    public void searchPhoto(Date startDate, Date endDate){
+        testing.setText("");
     }
 }
