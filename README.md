@@ -7,7 +7,7 @@ COMP 7082 Assignment
 | Task 2      | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
 | Task 3      | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
 | Task 4      | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
-| Task 5      | ![incomplete](https://placehold.it/15/f03c15/000000?text=+) `incomplete` |
+| Task 5      | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
 
 
 | Sprint 2           | pending |
