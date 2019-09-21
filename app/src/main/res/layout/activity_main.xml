@@ -47,7 +47,6 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:singleLine="false"
-        android:text="Hello World"
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/guide_widgetGuideLine"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +72,7 @@
             app:srcCompat="@android:drawable/ic_media_play" />
 
         <ImageButton
-            android:id="@+id/button_camera"
+            android:id="@+id/button_snap"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
