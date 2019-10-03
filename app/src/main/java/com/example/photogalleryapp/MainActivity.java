@@ -26,12 +26,11 @@ import java.sql.Timestamp;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
     private PhotoDisplayManager photoDisplayManager;
     private CameraManager cameraManager;
     private ArrayList<String> photoGallery;
     private String currentPhotoPath=null;
-    private int currentPhotoIndex = 0;
+    private int currentPhotoIndex=0;
 
     //Testing
     ImageView image_photoDisplay;
@@ -120,9 +119,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         if (currentPhotoIndex < 0)
-            currentPhotoIndex = 0;
-        if (currentPhotoIndex >= photoGallery.size())
             currentPhotoIndex = photoGallery.size() - 1;
+        if (currentPhotoIndex >= photoGallery.size())
+            currentPhotoIndex = 0;
 
         currentPhotoPath = photoGallery.get(currentPhotoIndex);
         Log.d("phpotoleft, size", Integer.toString(photoGallery.size()));
@@ -142,4 +141,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
 }
