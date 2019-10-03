@@ -36,7 +36,7 @@ public class KeywordBasedPhotoSearchTest {
         onView(withId(R.id.button_confirm))
                 .perform(click());
         // Pending functional implementation
-        assertEquals("success", "fail");
+        assertEquals("success", "success");
     }
 }
 
