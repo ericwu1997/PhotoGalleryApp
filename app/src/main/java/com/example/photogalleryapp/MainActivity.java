@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         // PhotoDisplay imageView
-        //image_photoDisplay = findViewById(R.id.image_photoDisplay);
+        image_photoDisplay = findViewById(R.id.image_photoDisplay);
         ImageButton btnLeft = findViewById(R.id.button_left);
         ImageButton btnRight = findViewById(R.id.button_right);
         btnLeft.setOnClickListener(this);
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Date maxDate = new Date(Long.MAX_VALUE);
         photoGallery = populateGallery(minDate, maxDate);
         Log.d("onCreate, size", Integer.toString(photoGallery.size()));
-        if (photoGallery.size() > 0)
+        if (photoGallery.size() >= 0)
             currentPhotoPath = photoGallery.get(currentPhotoIndex);
         displayPhoto(currentPhotoPath);
     }
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> populateGallery(Date minDate, Date maxDate) {
         File file = new File(Environment.getExternalStorageDirectory()
                 .getAbsolutePath(), "/Android/data/com.example.photogalleryapp/files/Pictures");
-        ArrayList<String> photoGallery = new ArrayList<String>();
+        photoGallery = new ArrayList<String>();
         File[] fList = file.listFiles();
         if (fList != null) {
             for (File f : file.listFiles()) {
