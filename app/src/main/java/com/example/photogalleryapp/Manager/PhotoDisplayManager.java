@@ -2,6 +2,7 @@ package com.example.photogalleryapp.Manager;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import android.util.SparseArray;
@@ -13,7 +14,7 @@ public class PhotoDisplayManager {
     private SparseArray<String> bitmap_list = new SparseArray<>();
     private int current_index;
     private int size;
-
+    private File absPath;
     private PhotoDisplayManager() {
         current_index = -1;
         size = 0;
@@ -22,12 +23,32 @@ public class PhotoDisplayManager {
         File[] fList = file.listFiles();
         if (fList != null) {
             current_index = 0;
+            absPath = fList[current_index];
             int i = 0;
             for (File f : fList) {
                 bitmap_list.put(i++, f.getPath());
                 size++;
             }
         }
+    }
+
+    public String getFileName(){
+
+        File pPath = new File(bitmap_list.get(current_index));
+        if(pPath!=null) {
+            String fFullName = pPath.getName();
+            String fName = fFullName.split("\\.")[0];
+            return fName;
+        }else{
+            return "No name yet";
+        }
+    }
+
+    public File getPath(){
+//        File pPath = new File(bitmap_list.get(current_index));
+//        String fPath=Uri.fromFile(pPath).toString();
+        File pPath = absPath;
+            return pPath;
     }
 
     public Bitmap getNextPhoto() {
@@ -57,4 +78,5 @@ public class PhotoDisplayManager {
             manager_instance = new PhotoDisplayManager();
         return manager_instance;
     }
+
 }
