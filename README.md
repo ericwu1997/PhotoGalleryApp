@@ -12,9 +12,9 @@ COMP 7082 Assignment
 
 | Sprint 2           | pending |
 |:-------------:| -----:|
-| Task 6 | ![](https://placehold.it/15/E6EBFE/000000?text=+) `pending` |
+| Task 6 | ![](https://placehold.it/15/01EB4C/000000?text=+) `pending` |
 | Task 7      | ![](https://placehold.it/15/E6EBFE/000000?text=+) `pending` |
-| Task 8      | ![](https://placehold.it/15/E6EBFE/000000?text=+) `pending` |
+| Task 8      | ![](https://placehold.it/15/01EB4C/000000?text=+) `pending` |
 | Task 9      | ![](https://placehold.it/15/E6EBFE/000000?text=+) `pending` |
 | Task 10      | ![](https://placehold.it/15/E6EBFE/000000?text=+) `pending` |
 
