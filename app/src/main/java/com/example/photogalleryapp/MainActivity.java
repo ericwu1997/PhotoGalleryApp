@@ -25,15 +25,11 @@ import java.util.ArrayList;
 import java.sql.Timestamp;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private PhotoDisplayManager photoDisplayManager;
     private CameraManager cameraManager;
-    private ArrayList<String> photoGallery;
-    private String currentPhotoPath=null;
-    private int currentPhotoIndex=0;
 
-    //Testing
-    ImageView image_photoDisplay;
+    private ImageView image_photoDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +47,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Initialize manager classes
         cameraManager = new CameraManager(this);
-        photoDisplayManager = new PhotoDisplayManager();
+        photoDisplayManager = PhotoDisplayManager.getInstance();
+
+        // Main image display
+        image_photoDisplay = findViewById(R.id.image_photoDisplay);
+        Bitmap temp;
+        if ((temp = photoDisplayManager.getNextPhoto()) != null)
+            image_photoDisplay.setImageBitmap(temp);
 
         // Search button
         ImageButton button_search = findViewById(R.id.button_search);
@@ -72,61 +74,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        // PhotoDisplay imageView
-        image_photoDisplay = findViewById(R.id.image_photoDisplay);
-        ImageButton btnLeft = findViewById(R.id.button_left);
-        ImageButton btnRight = findViewById(R.id.button_right);
-        btnLeft.setOnClickListener(this);
-        btnRight.setOnClickListener(this);
-        Date minDate = new Date(Long.MIN_VALUE);
-        Date maxDate = new Date(Long.MAX_VALUE);
-        photoGallery = populateGallery(minDate, maxDate);
-        Log.d("onCreate, size", Integer.toString(photoGallery.size()));
-        if (photoGallery.size() >= 0)
-            currentPhotoPath = photoGallery.get(currentPhotoIndex);
-        displayPhoto(currentPhotoPath);
-    }
-
-
-
-    private ArrayList<String> populateGallery(Date minDate, Date maxDate) {
-        File file = new File(Environment.getExternalStorageDirectory()
-                .getAbsolutePath(), "/Android/data/com.example.photogalleryapp/files/Pictures");
-        photoGallery = new ArrayList<String>();
-        File[] fList = file.listFiles();
-        if (fList != null) {
-            for (File f : file.listFiles()) {
-                photoGallery.add(f.getPath());
+        // Left button
+        ImageButton button_left = findViewById(R.id.button_left);
+        button_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap temp;
+                if ((temp = photoDisplayManager.getPrevPhoto()) != null)
+                    image_photoDisplay.setImageBitmap(temp);
             }
-        }
-        return photoGallery;
-    }
+        });
 
-    private void displayPhoto(String path) {
-        ImageView iv = (ImageView) findViewById(R.id.image_photoDisplay);
-        iv.setImageBitmap(BitmapFactory.decodeFile(path));
-    }
-
-    public void onClick( View v) {
-        switch (v.getId()) {
-            case R.id.button_left:
-                --currentPhotoIndex;
-                break;
-            case R.id.button_right:
-                ++currentPhotoIndex;
-                break;
-            default:
-                break;
-        }
-        if (currentPhotoIndex < 0)
-            currentPhotoIndex = photoGallery.size() - 1;
-        if (currentPhotoIndex >= photoGallery.size())
-            currentPhotoIndex = 0;
-
-        currentPhotoPath = photoGallery.get(currentPhotoIndex);
-        Log.d("phpotoleft, size", Integer.toString(photoGallery.size()));
-        Log.d("photoleft, index", Integer.toString(currentPhotoIndex));
-        displayPhoto(currentPhotoPath);
+        // Right button
+        ImageButton button_right = findViewById(R.id.button_right);
+        button_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap temp;
+                if ((temp = photoDisplayManager.getNextPhoto()) != null)
+                    image_photoDisplay.setImageBitmap(temp);
+            }
+        });
     }
 
     @Override
