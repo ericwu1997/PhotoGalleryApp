@@ -137,6 +137,10 @@ public class PhotoDisplayManager {
             current_index = -1;
     }
 
+    public Filter getFilter() {
+        return this.filter;
+    }
+
     public void clear() {
         photo_name_list.clear();
         photo_name_list.clear();
@@ -160,7 +164,7 @@ public class PhotoDisplayManager {
         return manager_instance;
     }
 
-    class Filter {
+    public class Filter {
         private String keyword;
         private Date dateStart;
         private Date dateEnd;
@@ -179,6 +183,10 @@ public class PhotoDisplayManager {
                 return keyword.contains(this.keyword);
             }
             return false;
+        }
+
+        public String getKeyword() {
+            return this.keyword;
         }
     }
 }
