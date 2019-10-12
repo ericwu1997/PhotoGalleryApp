@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,9 +23,11 @@ import com.example.photogalleryapp.Utils.Photo;
 public class MainActivity extends AppCompatActivity {
     private PhotoDisplayManager photoDisplayManager;
     private CameraManager cameraManager;
+
     private ImageView image_photoDisplay;
     private TextView text_timeStamp;
     private EditText text_caption;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,19 +78,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //getFileName();
-        editCaption = findViewById(R.id.text_caption);
-        //Caption
-        Button changeButton = findViewById(R.id.change_caption);
-        changeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String content = editCaption.getText().toString();
-                changeFileName(content);
-            }
-        });
-
-
         // Left button
         ImageButton button_left = findViewById(R.id.button_left);
         button_left.setOnClickListener(new View.OnClickListener() {
@@ -116,45 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        // Display caption
-
-    }
-
-    protected void getFileName(){
-        String photoCaption=photoDisplayManager.getFileName();
-        TextView caption = findViewById(R.id.text_timeStamp);
-        caption.setText(photoCaption);
-    }
-
-    protected void changeFileName(String input){
-
-        File pPath = photoDisplayManager.getPath();
-        String fFullName = pPath.getName();
-        Log.d("Current path", pPath.toString());
-        //String fName = fFullName.split("\\.")[0];
-        //Path source =
-        File from = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+
-                "/Android/data/com.example.photogalleryapp/files/Pictures"+fFullName);
-        //File from      = new File("/Android/data/com.example.photogalleryapp/files/Pictures", fFullName);
-        File to        = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+
-                "/Android/data/com.example.photogalleryapp/files/Pictures"+input+".jpg");
-
-        Log.d("From path", from.toString());
-        Log.d("Too path", to.toString());
-        to.delete();
-    from.renameTo(to);
-
-//        Path souce = photoDisplayManager.getPath().toPath();
-//        try {
-//            Files.move(souce, souce.resolveSibling(input));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
-        TextView caption = findViewById(R.id.text_timeStamp);
-        caption.setText(input);
     }
 
     @Override

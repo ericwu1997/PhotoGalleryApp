@@ -2,7 +2,6 @@ package com.example.photogalleryapp.Manager;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Environment;
 
 import androidx.collection.ArrayMap;
@@ -121,5 +120,4 @@ public class PhotoDisplayManager {
             manager_instance = new PhotoDisplayManager();
         return manager_instance;
     }
-
 }
