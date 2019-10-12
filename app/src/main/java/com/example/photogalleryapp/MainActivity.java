@@ -19,7 +19,6 @@ import com.example.photogalleryapp.Manager.PhotoDisplayManager;
 import com.example.photogalleryapp.Utils.Photo;
 
 
-
 public class MainActivity extends AppCompatActivity {
     private PhotoDisplayManager photoDisplayManager;
     private CameraManager cameraManager;
@@ -27,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView image_photoDisplay;
     private TextView text_timeStamp;
     private EditText text_caption;
+
 
 
     @Override
@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 if ((temp = photoDisplayManager.getNextPhoto()) != null) {
                     updateDisplay(temp);
                 }
-
             }
         });
     }
