@@ -3,9 +3,7 @@ package com.example.photogalleryapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,16 +11,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.photogalleryapp.Manager.CameraManager;
+import com.example.photogalleryapp.Utils.Camera;
 import com.example.photogalleryapp.Manager.PhotoDisplayManager;
 import com.example.photogalleryapp.Utils.Photo;
 
 
-
 public class MainActivity extends AppCompatActivity {
     private PhotoDisplayManager photoDisplayManager;
-    private CameraManager cameraManager;
+    private Camera camera;
 
     private ImageView image_photoDisplay;
     private TextView text_timeStamp;
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // camera manager
-        cameraManager = new CameraManager(this);
+        camera = new Camera(this);
 
         // photo display manager
         photoDisplayManager = PhotoDisplayManager.getInstance();
@@ -74,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         button_snap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cameraManager.dispatchTakePictureIntent();
+                camera.dispatchTakePictureIntent();
             }
         });
 
@@ -99,8 +97,9 @@ public class MainActivity extends AppCompatActivity {
                 Photo temp;
                 if ((temp = photoDisplayManager.getNextPhoto()) != null) {
                     updateDisplay(temp);
+                } else {
+                    Toast.makeText(getApplicationContext(), "No image found!", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
@@ -109,11 +108,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Display photo upon picture taken
-        if (requestCode == CameraManager.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+        // Display photo and remove filter upon picture taken
+        if (requestCode == Camera.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             Photo temp;
-            if ((temp = cameraManager.getLastTakenPicture()) != null) {
+            if ((temp = camera.getLastTakenPicture()) != null) {
                 photoDisplayManager.addToList(temp.getName(), temp.getDate());
+                photoDisplayManager.removeFilter();
                 updateDisplay(temp);
             }
         }
