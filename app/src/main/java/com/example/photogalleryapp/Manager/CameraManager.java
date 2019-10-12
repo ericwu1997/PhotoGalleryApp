@@ -11,6 +11,8 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
+import com.example.photogalleryapp.Utils.Photo;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -69,13 +71,14 @@ public class CameraManager {
         return image;
     }
 
-    public Bitmap getLastTakenPicture() {
+    public Photo getLastTakenPicture() {
         Uri imageUri = Uri.parse(currentPhotoPath);
         try {
             File file = new File(imageUri.getPath());
             try {
                 InputStream ims = new FileInputStream(file);
-                return BitmapFactory.decodeStream(ims);
+
+                return new Photo(file.getName(), BitmapFactory.decodeStream(ims), new Date(file.lastModified()));
             } catch (FileNotFoundException e) {
                 return null;
             }

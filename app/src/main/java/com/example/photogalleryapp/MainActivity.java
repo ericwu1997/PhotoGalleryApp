@@ -4,25 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.photogalleryapp.Manager.CameraManager;
 import com.example.photogalleryapp.Manager.PhotoDisplayManager;
+import com.example.photogalleryapp.Utils.Photo;
 
-import java.io.File;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.sql.Timestamp;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private CameraManager cameraManager;
 
     private ImageView image_photoDisplay;
+    private TextView text_timeStamp;
+    private EditText text_caption;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +43,21 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        // Initialize manager classes
+        // camera manager
         cameraManager = new CameraManager(this);
+
+        // photo display manager
         photoDisplayManager = PhotoDisplayManager.getInstance();
+        photoDisplayManager.readFromFolder("/Android/data/com.example.photogalleryapp/files/Pictures");
 
         // Main image display
         image_photoDisplay = findViewById(R.id.image_photoDisplay);
-        Bitmap temp;
-        if ((temp = photoDisplayManager.getNextPhoto()) != null)
-            image_photoDisplay.setImageBitmap(temp);
+        text_timeStamp = findViewById(R.id.text_timeStamp);
+        text_caption = findViewById(R.id.text_caption);
+        Photo temp;
+        if ((temp = photoDisplayManager.getNextPhoto()) != null) {
+            updateDisplay(temp);
+        }
 
         // Search button
         ImageButton button_search = findViewById(R.id.button_search);
@@ -79,9 +83,11 @@ public class MainActivity extends AppCompatActivity {
         button_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap temp;
-                if ((temp = photoDisplayManager.getPrevPhoto()) != null)
-                    image_photoDisplay.setImageBitmap(temp);
+                Photo temp;
+                if ((temp = photoDisplayManager.getPrevPhoto()) != null) {
+                    updateDisplay(temp);
+                }
+
             }
         });
 
@@ -90,9 +96,11 @@ public class MainActivity extends AppCompatActivity {
         button_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap temp;
-                if ((temp = photoDisplayManager.getNextPhoto()) != null)
-                    image_photoDisplay.setImageBitmap(temp);
+                Photo temp;
+                if ((temp = photoDisplayManager.getNextPhoto()) != null) {
+                    updateDisplay(temp);
+                }
+
             }
         });
     }
@@ -103,11 +111,29 @@ public class MainActivity extends AppCompatActivity {
 
         // Display photo upon picture taken
         if (requestCode == CameraManager.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            Bitmap temp;
+            Photo temp;
             if ((temp = cameraManager.getLastTakenPicture()) != null) {
-                image_photoDisplay.setImageBitmap(temp);
+                photoDisplayManager.addToList(temp.getName(), temp.getDate());
+                updateDisplay(temp);
             }
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Photo temp;
+        // need to update upon return by clicking items in gallery activity
+        if ((temp = photoDisplayManager.getCurrentPhoto()) != null) {
+            updateDisplay(temp);
+        }
+    }
+
+    // update display
+    private void updateDisplay(Photo photo) {
+        image_photoDisplay.setImageBitmap(photo.getThumbnail());
+        text_caption.setText(photo.getName());
+        text_timeStamp.setText(android.text.format.DateFormat
+                .format("yyyy-MM-dd", photo.getDate()));
+    }
 }

@@ -1,25 +1,29 @@
 package com.example.photogalleryapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.collection.ArrayMap;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.example.photogalleryapp.Adapter.RecyclerViewAdapter;
+import com.example.photogalleryapp.Manager.PhotoDisplayManager;
 
 import java.util.Date;
 
-public class GalleryActivity extends AppCompatActivity implements SearchInputFragment.OnInputListener{
+public class GalleryActivity extends AppCompatActivity implements RecyclerViewAdapter.ItemClickListener, SearchInputFragment.OnInputListener {
 
     ImageButton button_back;
     Button button_searchPopup;
-    TextView testing;
+
+    RecyclerViewAdapter adapter;
+    PhotoDisplayManager photoDisplayManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +39,11 @@ public class GalleryActivity extends AppCompatActivity implements SearchInputFra
 
         setContentView(R.layout.activity_gallery);
 
-        testing = findViewById(R.id.text_testing);
-
         button_back = findViewById(R.id.button_back);
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -55,15 +56,34 @@ public class GalleryActivity extends AppCompatActivity implements SearchInputFra
             }
         });
 
+        photoDisplayManager = PhotoDisplayManager.getInstance();
+
+        // set up the RecyclerView
+        RecyclerView recyclerView = findViewById(R.id.recycleView_thumbnail);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new RecyclerViewAdapter(this, photoDisplayManager.getPhotoList());
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void searchPhoto(String input) {
-        testing.setText(input);
+//        testing.setText(input);
     }
 
     @Override
-    public void searchPhoto(Date startDate, Date endDate){
-        testing.setText("");
+    public void searchPhoto(Date startDate, Date endDate) {
+//        testing.setText("");
+    }
+
+    @Override
+    public void searchPhoto(String input, Date startDate, Date endDate) {
+//        testing.setText("");
+    }
+
+    @Override
+    public void onItemClick(View view, String caption) {
+        photoDisplayManager.setCurrentIndexByName(caption);
+        finish();
     }
 }
