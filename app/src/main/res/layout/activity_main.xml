@@ -10,7 +10,7 @@
         android:id="@+id/text_timeStamp"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="2019/09/15 11:00:30"
+        android:text="2019/09/15"
         android:gravity="center"
         android:textSize="30dp"
         android:background="#000000"

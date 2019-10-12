@@ -24,6 +24,8 @@ public class SearchInputFragment extends DialogFragment {
         void searchPhoto(String input);
 
         void searchPhoto(Date startDate, Date endDate);
+
+        void searchPhoto(String input, Date startDate, Date endDate);
     }
 
     @Nullable
@@ -35,7 +37,7 @@ public class SearchInputFragment extends DialogFragment {
         button_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onInputListener.searchPhoto("SUCCESS");
+//                onInputListener.searchPhoto("SUCCESS");
                 getDialog().dismiss();
             }
         });
