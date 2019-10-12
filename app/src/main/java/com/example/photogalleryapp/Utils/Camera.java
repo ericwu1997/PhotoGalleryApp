@@ -89,9 +89,17 @@ public class Camera {
 
     static public class FileNameParser {
         public static String parse(String fullName) {
-            if(fullName.contains("_")) {
+            if (fullName.contains("_")) {
                 int i = fullName.lastIndexOf('_');
                 return fullName.substring(0, i);
+            }
+            return null;
+        }
+
+        public static String parseUniqueID(String fullName) {
+            if (fullName.contains("_")) {
+                int i = fullName.lastIndexOf('_');
+                return fullName.substring(i);
             }
             return null;
         }

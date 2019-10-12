@@ -8,6 +8,7 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import com.example.photogalleryapp.Utils.Camera;
+import com.example.photogalleryapp.Utils.Camera.FileNameParser;
 import com.example.photogalleryapp.Utils.Photo;
 
 import java.io.File;
@@ -107,7 +108,6 @@ public class PhotoDisplayManager {
             current_index = 0;
             int i = 0;
             for (File f : fList) {
-                Log.d("PATH", f.getPath());
                 photo_name_list.put(i, f.getName());
                 photo_date_list.put(i++, new Date(f.lastModified()));
                 size++;
@@ -140,6 +140,18 @@ public class PhotoDisplayManager {
     public void clear() {
         photo_name_list.clear();
         photo_name_list.clear();
+    }
+
+    public boolean renameCurrentPhoto(String newName) {
+        if (current_index == -1) return false;
+        String oldName_withID = photo_name_list.get(current_index);
+        String ID = FileNameParser.parseUniqueID(oldName_withID);
+        Log.d("ID", ID);
+        String newName_withID = newName.concat(ID);
+        File file = new File(source_path + '/' + oldName_withID);
+        File newFile = new File(source_path + '/' + newName_withID);
+        photo_name_list.put(current_index, newName_withID);
+        return file.renameTo(newFile);
     }
 
     public static PhotoDisplayManager getInstance() {

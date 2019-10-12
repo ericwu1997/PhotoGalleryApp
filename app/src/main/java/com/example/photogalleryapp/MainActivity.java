@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -52,6 +53,20 @@ public class MainActivity extends AppCompatActivity {
         image_photoDisplay = findViewById(R.id.image_photoDisplay);
         text_timeStamp = findViewById(R.id.text_timeStamp);
         text_caption = findViewById(R.id.text_caption);
+        text_caption.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    String caption = text_caption.getText().toString();
+                    if (!caption.equals("")) {
+                        if (photoDisplayManager.renameCurrentPhoto(text_caption.getText().toString()))
+                            Toast.makeText(getApplicationContext(), "Rename success!", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
         Photo temp;
         if ((temp = photoDisplayManager.getNextPhoto()) != null) {
             updateDisplay(temp);
