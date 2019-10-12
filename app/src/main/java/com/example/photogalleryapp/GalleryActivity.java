@@ -23,6 +23,7 @@ public class GalleryActivity extends AppCompatActivity implements RecyclerViewAd
     ImageButton button_back;
     Button button_searchPopup;
 
+    RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
     PhotoDisplayManager photoDisplayManager;
 
@@ -60,7 +61,7 @@ public class GalleryActivity extends AppCompatActivity implements RecyclerViewAd
         photoDisplayManager = PhotoDisplayManager.getInstance();
 
         // set up the RecyclerView
-        RecyclerView recyclerView = findViewById(R.id.recycleView_thumbnail);
+        recyclerView = findViewById(R.id.recycleView_thumbnail);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RecyclerViewAdapter(this, photoDisplayManager.getPhotoList());
         adapter.setClickListener(this);
@@ -69,7 +70,10 @@ public class GalleryActivity extends AppCompatActivity implements RecyclerViewAd
 
     @Override
     public void searchPhoto(String input, Date startDate, Date endDate) {
-        Log.d("DATE", startDate.toString());
+        adapter = new RecyclerViewAdapter(
+                this, photoDisplayManager.filterList(input, startDate, endDate));
+        adapter.setClickListener(this);
+        recyclerView.swapAdapter(adapter, false);
     }
 
     @Override

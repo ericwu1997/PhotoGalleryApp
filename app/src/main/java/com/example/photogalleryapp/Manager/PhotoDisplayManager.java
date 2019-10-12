@@ -74,6 +74,23 @@ public class PhotoDisplayManager {
         current_index = ++size - 1;
     }
 
+    public ArrayMap<String, Bitmap> filterList(String keyword, Date dateStart, Date dateEnd) {
+        String filename;
+        ArrayMap<String, Bitmap> photoList = new ArrayMap<>();
+        for (int i = 0; i < photo_date_list.size(); i++) {
+            Date date = photo_date_list.valueAt(i);
+            Log.d("COMPARE", "A: " + date.toString() + "\n" + "B: " + dateStart.toString());
+            if (date.compareTo(dateStart) >= 0 && date.compareTo(dateEnd) <= 0) {
+                filename = photo_name_list.valueAt(i);
+                photoList.put(filename,
+                        BitmapFactory.decodeFile(source_path + "/" + filename, options));
+                Log.d("FOUND", "FOUND: " + filename);
+            }
+        }
+
+        return photoList;
+    }
+
     public void readFromFolder(String path) {
         File file = new File(Environment.getExternalStorageDirectory()
                 .getAbsolutePath(), path);
@@ -105,6 +122,7 @@ public class PhotoDisplayManager {
     public void setCurrentIndexByName(String caption) {
         current_index = photo_name_list.indexOfValue(caption);
     }
+
 
     public int getCurrentIndex() {
         return current_index;

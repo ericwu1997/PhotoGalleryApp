@@ -76,6 +76,13 @@ public class SearchInputFragment extends DialogFragment {
         text_dateStart = view.findViewById(R.id.text_dateStart);
         text_dateEnd = view.findViewById(R.id.text_dateEnd);
 
+        startDate_calender.set(Calendar.HOUR_OF_DAY, 0);
+        startDate_calender.set(Calendar.MINUTE, 0);
+        startDate_calender.set(Calendar.SECOND, 0);
+        endDate_calender.set(Calendar.HOUR_OF_DAY, 23);
+        endDate_calender.set(Calendar.MINUTE, 59);
+        endDate_calender.set(Calendar.SECOND, 59);
+
         button_confirm = view.findViewById(R.id.button_confirm);
         button_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
