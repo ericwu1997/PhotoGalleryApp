@@ -112,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 Photo temp;
                 if ((temp = photoDisplayManager.getNextPhoto()) != null) {
                     updateDisplay(temp);
-                } else {
-                    Toast.makeText(getApplicationContext(), "No image found!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
