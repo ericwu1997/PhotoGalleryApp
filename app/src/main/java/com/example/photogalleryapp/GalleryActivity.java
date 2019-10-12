@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -67,18 +68,8 @@ public class GalleryActivity extends AppCompatActivity implements RecyclerViewAd
     }
 
     @Override
-    public void searchPhoto(String input) {
-//        testing.setText(input);
-    }
-
-    @Override
-    public void searchPhoto(Date startDate, Date endDate) {
-//        testing.setText("");
-    }
-
-    @Override
     public void searchPhoto(String input, Date startDate, Date endDate) {
-//        testing.setText("");
+        Log.d("DATE", startDate.toString());
     }
 
     @Override
