@@ -4,11 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
-import androidx.collection.ArrayMap;
-
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.example.photogalleryapp.Utils.Camera;
+import com.example.photogalleryapp.Utils.Camera.FileNameParser;
 import com.example.photogalleryapp.Utils.Photo;
 
 import java.io.File;
@@ -23,6 +23,7 @@ public class PhotoDisplayManager {
     private int current_index;
     private int size;
     private BitmapFactory.Options options;
+    private Filter filter;
 
     private PhotoDisplayManager() {
         photo_name_list = new SparseArray<>();
@@ -40,31 +41,55 @@ public class PhotoDisplayManager {
         if (size == 0) {
             return null;
         }
-        current_index = (++current_index) % size;
-        String filename = photo_name_list.get(current_index);
-        Date date = photo_date_list.get(current_index);
-        return new Photo(filename,
-                BitmapFactory.decodeFile(source_path + "/" + filename, options), date);
+        int i = photo_name_list.size();
+        boolean match;
+        Date date;
+        String filename;
+        do {
+            current_index = (++current_index) % size;
+            filename = photo_name_list.get(current_index);
+            date = photo_date_list.get(current_index);
+            if (filter != null) {
+                match = filter.applyFilter(filename, date);
+            } else {
+                match = true;
+            }
+            i--;
+        } while (!match && i != 0);
+        return (i == 0 ? null : new Photo(Camera.FileNameParser.parse(filename),
+                BitmapFactory.decodeFile(source_path + "/" + filename, options), date));
     }
 
     public Photo getPrevPhoto() {
         if (size == 0) {
             return null;
         }
-        current_index = (--current_index < 0 ? size - 1 : current_index);
-        String filename = photo_name_list.get(current_index);
-        Date date = photo_date_list.get(current_index);
-        return new Photo(filename,
-                BitmapFactory.decodeFile(source_path + "/" + filename, options), date);
+        int i = photo_name_list.size();
+        boolean match;
+        Date date;
+        String filename;
+        do {
+            current_index = (--current_index < 0 ? size - 1 : current_index);
+            filename = photo_name_list.get(current_index);
+            date = photo_date_list.get(current_index);
+            if (filter != null) {
+                match = filter.applyFilter(filename, date);
+            } else {
+                match = true;
+            }
+            i--;
+        } while (!match && i != 0);
+        return (i == 0 ? null : new Photo(Camera.FileNameParser.parse(filename),
+                BitmapFactory.decodeFile(source_path + "/" + filename, options), date));
     }
 
     public Photo getCurrentPhoto() {
-        if (size == 0) {
+        if (size == 0 || current_index == -1) {
             return null;
         }
         String filename = photo_name_list.get(current_index);
         Date date = photo_date_list.get(current_index);
-        return new Photo(filename,
+        return new Photo(Camera.FileNameParser.parse(filename),
                 BitmapFactory.decodeFile(source_path + "/" + filename, options), date);
     }
 
@@ -83,7 +108,6 @@ public class PhotoDisplayManager {
             current_index = 0;
             int i = 0;
             for (File f : fList) {
-                Log.d("PATH", f.getPath());
                 photo_name_list.put(i, f.getName());
                 photo_date_list.put(i++, new Date(f.lastModified()));
                 size++;
@@ -91,23 +115,30 @@ public class PhotoDisplayManager {
         }
     }
 
-    public ArrayMap<String, Bitmap> getPhotoList() {
-        ArrayMap<String, Bitmap> photoList = new ArrayMap<>();
+    public void removeFilter() {
+        filter = null;
+    }
+
+    public void setFilter(String keyword, Date startDate, Date endDate) {
+        filter = new Filter(keyword, startDate, endDate);
+        int i = photo_name_list.size();
+        boolean match;
+        Date date;
         String filename;
-        for (int i = 0; i < photo_name_list.size(); i++) {
-            filename = photo_name_list.get(i);
-            photoList.put(filename,
-                    BitmapFactory.decodeFile(source_path + "/" + filename, options));
-        }
-        return photoList;
+        do {
+            filename = photo_name_list.get(current_index);
+            date = photo_date_list.get(current_index);
+            current_index
+                    = (match = filter.applyFilter(filename, date)) ?
+                    current_index : (++current_index) % size;
+            i--;
+        } while (!match && i != 0);
+        if (i == 0)
+            current_index = -1;
     }
 
-    public void setCurrentIndexByName(String caption) {
-        current_index = photo_name_list.indexOfValue(caption);
-    }
-
-    public int getCurrentIndex() {
-        return current_index;
+    public Filter getFilter() {
+        return this.filter;
     }
 
     public void clear() {
@@ -115,9 +146,47 @@ public class PhotoDisplayManager {
         photo_name_list.clear();
     }
 
+    public boolean renameCurrentPhoto(String newName) {
+        if (current_index == -1) return false;
+        String oldName_withID = photo_name_list.get(current_index);
+        String ID = FileNameParser.parseUniqueID(oldName_withID);
+        Log.d("ID", ID);
+        String newName_withID = newName.concat(ID);
+        File file = new File(source_path + '/' + oldName_withID);
+        File newFile = new File(source_path + '/' + newName_withID);
+        photo_name_list.put(current_index, newName_withID);
+        return file.renameTo(newFile);
+    }
+
     public static PhotoDisplayManager getInstance() {
         if (manager_instance == null)
             manager_instance = new PhotoDisplayManager();
         return manager_instance;
+    }
+
+    public class Filter {
+        private String keyword;
+        private Date dateStart;
+        private Date dateEnd;
+
+        Filter(String keyword, Date dateStart, Date dateEnd) {
+            this.keyword = keyword;
+            this.dateStart = dateStart;
+            this.dateEnd = dateEnd;
+        }
+
+        boolean applyFilter(String keyword, Date date) {
+            if (date.compareTo(dateStart) >= 0 && date.compareTo(dateEnd) <= 0) {
+                if (this.keyword == null) {
+                    return true;
+                }
+                return keyword.contains(this.keyword);
+            }
+            return false;
+        }
+
+        public String getKeyword() {
+            return this.keyword;
+        }
     }
 }

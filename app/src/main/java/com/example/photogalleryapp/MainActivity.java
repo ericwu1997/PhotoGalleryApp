@@ -3,9 +3,8 @@ package com.example.photogalleryapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,16 +12,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.photogalleryapp.Manager.CameraManager;
+import com.example.photogalleryapp.Utils.Camera;
 import com.example.photogalleryapp.Manager.PhotoDisplayManager;
 import com.example.photogalleryapp.Utils.Photo;
 
 
-
 public class MainActivity extends AppCompatActivity {
     private PhotoDisplayManager photoDisplayManager;
-    private CameraManager cameraManager;
+    private Camera camera;
 
     private ImageView image_photoDisplay;
     private TextView text_timeStamp;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // camera manager
-        cameraManager = new CameraManager(this);
+        camera = new Camera(this);
 
         // photo display manager
         photoDisplayManager = PhotoDisplayManager.getInstance();
@@ -54,6 +53,20 @@ public class MainActivity extends AppCompatActivity {
         image_photoDisplay = findViewById(R.id.image_photoDisplay);
         text_timeStamp = findViewById(R.id.text_timeStamp);
         text_caption = findViewById(R.id.text_caption);
+        text_caption.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    String caption = text_caption.getText().toString();
+                    if (!caption.equals("")) {
+                        if (photoDisplayManager.renameCurrentPhoto(text_caption.getText().toString()))
+                            Toast.makeText(getApplicationContext(), "Rename success!", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
         Photo temp;
         if ((temp = photoDisplayManager.getNextPhoto()) != null) {
             updateDisplay(temp);
@@ -74,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         button_snap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cameraManager.dispatchTakePictureIntent();
+                camera.dispatchTakePictureIntent();
             }
         });
 
@@ -100,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 if ((temp = photoDisplayManager.getNextPhoto()) != null) {
                     updateDisplay(temp);
                 }
-
             }
         });
     }
@@ -109,11 +121,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Display photo upon picture taken
-        if (requestCode == CameraManager.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+        // Display photo and remove filter upon picture taken
+        if (requestCode == Camera.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             Photo temp;
-            if ((temp = cameraManager.getLastTakenPicture()) != null) {
+            if ((temp = camera.getLastTakenPicture()) != null) {
                 photoDisplayManager.addToList(temp.getName(), temp.getDate());
+                photoDisplayManager.removeFilter();
                 updateDisplay(temp);
             }
         }

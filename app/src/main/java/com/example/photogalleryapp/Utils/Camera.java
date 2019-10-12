@@ -1,4 +1,4 @@
-package com.example.photogalleryapp.Manager;
+package com.example.photogalleryapp.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,14 +22,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class CameraManager {
+public class Camera {
     public static final int REQUEST_TAKE_PHOTO = 1;
 
     private Activity activity;
     private File sdCardDirectory;
     private String currentPhotoPath;
 
-    public CameraManager(Activity activity) {
+    public Camera(Activity activity) {
         this.activity = activity;
         sdCardDirectory = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
     }
@@ -58,8 +58,7 @@ public class CameraManager {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String imageFileName = new SimpleDateFormat("d MMM yyyy",
-                Locale.getDefault()).format(new Date());
+        String imageFileName = "UNTITLED_";
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -86,5 +85,23 @@ public class CameraManager {
             Log.e("FILE PATH NOT EXIST", ex.toString());
         }
         return null;
+    }
+
+    static public class FileNameParser {
+        public static String parse(String fullName) {
+            if (fullName.contains("_")) {
+                int i = fullName.lastIndexOf('_');
+                return fullName.substring(0, i);
+            }
+            return null;
+        }
+
+        public static String parseUniqueID(String fullName) {
+            if (fullName.contains("_")) {
+                int i = fullName.lastIndexOf('_');
+                return fullName.substring(i);
+            }
+            return null;
+        }
     }
 }
