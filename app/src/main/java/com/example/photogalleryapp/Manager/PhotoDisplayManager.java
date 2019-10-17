@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.example.photogalleryapp.Utils.Camera;
@@ -37,9 +36,9 @@ public class PhotoDisplayManager {
         size = 0;
     }
 
-    public Photo getNextPhoto() {
+    public boolean moveToNext() {
         if (size == 0) {
-            return null;
+            return false;
         }
         int i = photo_name_list.size();
         boolean match;
@@ -56,13 +55,19 @@ public class PhotoDisplayManager {
             }
             i--;
         } while (!match && i != 0);
-        return (i == 0 ? null : new Photo(Camera.FileNameParser.parse(filename),
+        return i != 0;
+    }
+
+    public Photo getNextPhoto() {
+        String filename = photo_name_list.get(current_index);
+        Date date = photo_date_list.get(current_index);
+        return (moveToNext() ? null : new Photo(Camera.FileNameParser.parse(filename),
                 BitmapFactory.decodeFile(source_path + "/" + filename, options), date));
     }
 
-    public Photo getPrevPhoto() {
+    private boolean moveToPrev() {
         if (size == 0) {
-            return null;
+            return false;
         }
         int i = photo_name_list.size();
         boolean match;
@@ -79,7 +84,13 @@ public class PhotoDisplayManager {
             }
             i--;
         } while (!match && i != 0);
-        return (i == 0 ? null : new Photo(Camera.FileNameParser.parse(filename),
+        return i != 0;
+    }
+
+    public Photo getPrevPhoto() {
+        String filename = photo_name_list.get(current_index);
+        Date date = photo_date_list.get(current_index);
+        return (moveToPrev() ? null : new Photo(Camera.FileNameParser.parse(filename),
                 BitmapFactory.decodeFile(source_path + "/" + filename, options), date));
     }
 
@@ -114,10 +125,12 @@ public class PhotoDisplayManager {
             }
         }
     }
-    public String getCurrentFilePath(){
+
+    public String getCurrentFilePath() {
         String filename = photo_name_list.get(current_index);
-        return source_path+"/"+filename;
+        return source_path + "/" + filename;
     }
+
     public void removeFilter() {
         filter = null;
     }
@@ -144,6 +157,10 @@ public class PhotoDisplayManager {
         return this.filter;
     }
 
+    public int getCurrentIndex(){
+        return current_index;
+    }
+
     public void clear() {
         photo_name_list.clear();
         photo_name_list.clear();
@@ -153,7 +170,6 @@ public class PhotoDisplayManager {
         if (current_index == -1) return false;
         String oldName_withID = photo_name_list.get(current_index);
         String ID = FileNameParser.parseUniqueID(oldName_withID);
-        Log.d("ID", ID);
         String newName_withID = newName.concat(ID);
         File file = new File(source_path + '/' + oldName_withID);
         File newFile = new File(source_path + '/' + newName_withID);

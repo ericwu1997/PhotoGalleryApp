@@ -4,11 +4,10 @@ import com.example.photogalleryapp.Manager.PhotoDisplayManager;
 
 import org.junit.Test;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertTrue;
 
 public class KeywordFilteringTest {
     @Test
@@ -27,7 +26,8 @@ public class KeywordFilteringTest {
         p.addToList("Cat 1234567.jpg", d);
         p.addToList("Pig 1234567.jpg", d);
         p.addToList("Cow 1234567.jpg", d);
+        p.moveToNext();
         p.setFilter("Cow", d, d);
-//        assertTrue(p.getFilter().applyFilter("Cow", d));
+        assertTrue(p.getCurrentIndex() == 0);
     }
 }
