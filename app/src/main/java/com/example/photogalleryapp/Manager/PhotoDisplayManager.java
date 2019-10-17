@@ -114,7 +114,10 @@ public class PhotoDisplayManager {
             }
         }
     }
-
+    public String getCurrentFilePath(){
+        String filename = photo_name_list.get(current_index);
+        return source_path+"/"+filename;
+    }
     public void removeFilter() {
         filter = null;
     }

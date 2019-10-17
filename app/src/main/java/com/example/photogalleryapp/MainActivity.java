@@ -1,8 +1,11 @@
 package com.example.photogalleryapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,6 +20,11 @@ import android.widget.Toast;
 import com.example.photogalleryapp.Utils.Camera;
 import com.example.photogalleryapp.Manager.PhotoDisplayManager;
 import com.example.photogalleryapp.Utils.Photo;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
+
+import java.io.File;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -142,6 +150,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void fbShare(View view){
+        Intent share = new Intent(Intent.ACTION_SEND);
+        // Set the MIME type
+        share.setType("image/*");
+        // Create the URI from the media
+        String filepath = photoDisplayManager.getCurrentFilePath();
+        File media = new File(filepath);
+        Uri uri = FileProvider.getUriForFile(
+                MainActivity.this,
+                "com.example.android.photogalleryapp", //(use your app signature + ".provider" )
+                media);
+        // Add the URI to the Intent.
+        share.putExtra(Intent.EXTRA_STREAM, uri);
+        share.putExtra(Intent.EXTRA_SUBJECT,photoDisplayManager.getCurrentPhoto().getDate());
+        share.putExtra(Intent.EXTRA_TEXT,photoDisplayManager.getCurrentPhoto().getName());
+        // Broadcast the Intent.
+        startActivity(Intent.createChooser(share, "Share to"));
+    }
     // update display
     private void updateDisplay(Photo photo) {
         image_photoDisplay.setImageBitmap(photo.getThumbnail());
