@@ -27,9 +27,9 @@ public class TimeBasedPhotoSearchTest {
     public void Should_RetrieveMatchingPhotos_When_InquireByDateRange() {
         // Context of the app under test.
         onView(withId(R.id.text_dateStart))
-                .perform(typeText("10/12/2019"), closeSoftKeyboard());
+                .perform(PickerActions.setDate("2019", "1", "1"));
         onView(withId(R.id.text_dateEnd))
-                .perform(typeText("10/13/2019"), closeSoftKeyboard());
+                .perform(PickerActions.setDate("2019", "2", "2"));
         //onView(withId(R.id.button_confirm))
         //        .perform(click());
         // Pending functional implementation
