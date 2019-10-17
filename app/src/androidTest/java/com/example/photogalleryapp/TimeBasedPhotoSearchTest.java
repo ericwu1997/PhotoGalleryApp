@@ -28,8 +28,10 @@ public class TimeBasedPhotoSearchTest {
         // Context of the app under test.
         onView(withId(R.id.text_dateStart))
                 .perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
         onView(withId(R.id.text_dateEnd))
                 .perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
         //onView(withId(R.id.button_confirm))
         //        .perform(click());
         // Pending functional implementation
