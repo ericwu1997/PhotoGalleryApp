@@ -1,22 +1,22 @@
 # PhotoGalleryApp
 COMP 7082 Assignment
 
-| Sprint 1           |  open |
+| Sprint 1           |  open    |
 |:-------------:| -----:|
-| Task 1 | ![in progress](https://placehold.it/15/FFB226/000000?text=+) `in progress` |
-| Task 2      | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
-| Task 3      | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
-| Task 4      | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
-| Task 5      | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
+| Task 1        | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
+| Task 2        | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
+| Task 3        | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
+| Task 4        | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
+| Task 5        | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
 
 
-| Sprint 2           | pending |
+| Sprint 2           |  open    |
 |:-------------:| -----:|
-| Task 6 | ![](https://placehold.it/15/01EB4C/000000?text=+) `pending` |
-| Task 7      | ![](https://placehold.it/15/E6EBFE/000000?text=+) `pending` |
-| Task 8      | ![](https://placehold.it/15/01EB4C/000000?text=+) `pending` |
-| Task 9      | ![](https://placehold.it/15/E6EBFE/000000?text=+) `pending` |
-| Task 10      | ![](https://placehold.it/15/E6EBFE/000000?text=+) `pending` |
+| Task 6        | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
+| Task 7        | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
+| Task 8        | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
+| Task 9        | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
+| Task 10       | ![completed](https://placehold.it/15/01EB4C/000000?text=+) `completed` |
 
 ## Git
 ### commit message
