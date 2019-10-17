@@ -1,5 +1,7 @@
 package com.example.photogalleryapp;
 
+import android.util.Log;
+
 import com.example.photogalleryapp.Manager.PhotoDisplayManager;
 
 import org.junit.Test;
@@ -7,9 +9,11 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.Date;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 public class KeywordFilteringTest {
+
     @Test
     public void addition_isCorrect() {
         PhotoDisplayManager p = PhotoDisplayManager.getInstance();
@@ -28,6 +32,6 @@ public class KeywordFilteringTest {
         p.addToList("Cow 1234567.jpg", d);
         p.moveToNext();
         p.setFilter("Cow", d, d);
-        assertTrue(p.getCurrentIndex() == 0);
+        assertTrue(p.getFilter().applyFilter("Cow", d));
     }
 }

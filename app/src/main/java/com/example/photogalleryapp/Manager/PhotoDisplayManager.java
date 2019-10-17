@@ -157,7 +157,7 @@ public class PhotoDisplayManager {
         return this.filter;
     }
 
-    public int getCurrentIndex(){
+    public int getCurrentIndex() {
         return current_index;
     }
 
@@ -195,6 +195,7 @@ public class PhotoDisplayManager {
         }
 
         public boolean applyFilter(String keyword, Date date) {
+            if (date == null ) return true;
             if (date.compareTo(dateStart) >= 0 && date.compareTo(dateEnd) <= 0) {
                 if (this.keyword == null) {
                     return true;
