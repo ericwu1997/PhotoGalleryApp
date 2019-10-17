@@ -178,7 +178,7 @@ public class PhotoDisplayManager {
             this.dateEnd = dateEnd;
         }
 
-        boolean applyFilter(String keyword, Date date) {
+        public boolean applyFilter(String keyword, Date date) {
             if (date.compareTo(dateStart) >= 0 && date.compareTo(dateEnd) <= 0) {
                 if (this.keyword == null) {
                     return true;

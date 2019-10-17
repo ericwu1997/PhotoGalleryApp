@@ -20,12 +20,8 @@ import android.widget.Toast;
 import com.example.photogalleryapp.Utils.Camera;
 import com.example.photogalleryapp.Manager.PhotoDisplayManager;
 import com.example.photogalleryapp.Utils.Photo;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
-import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
-
 
 public class MainActivity extends AppCompatActivity {
     private PhotoDisplayManager photoDisplayManager;
@@ -34,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageView image_photoDisplay;
     private TextView text_timeStamp;
     private EditText text_caption;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -125,6 +125,7 @@ public class GalleryActivity extends AppCompatActivity {
             }
         });
 
+        // confirm button
         button_confirm = findViewById(R.id.button_confirm);
         button_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
