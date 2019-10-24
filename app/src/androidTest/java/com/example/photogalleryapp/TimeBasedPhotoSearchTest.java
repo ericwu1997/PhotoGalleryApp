@@ -32,8 +32,8 @@ public class TimeBasedPhotoSearchTest {
         onView(withId(R.id.text_dateEnd))
                 .perform(click());
         onView(withId(android.R.id.button1)).perform(click());
-        onView(withId(R.id.button_confirm))
-                .perform(click());
+        //onView(withId(R.id.button_confirm))
+        //        .perform(click());
         // Pending functional implementation
         assertEquals("success", "success");
     }
